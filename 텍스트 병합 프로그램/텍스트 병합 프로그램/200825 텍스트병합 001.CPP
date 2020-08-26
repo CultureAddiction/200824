@@ -3,20 +3,59 @@
 #include <string>
 using namespace std;
 class textCombiner {
-	string fileName;
+	string fileNameRet;
 	int Month;
 	int Year;
-
+	int dayMax;
 public:
 	textCombiner() {
 
 	}
-	textCombiner(string name, int M, int Y=2020) {
-		fileName = name;
+	textCombiner(string name, int M, int Y = 2020) {
+		fileNameRet = name;
 		Month = M;
-		Year = Y;
+		Year = Y%100;
+		setDayMax();
 	}
+	void setDayMax() {
+		switch (Month) {
+		case 1:
+		case 3:
+		case 5:
+		case 7:
+		case 8:
+		case 10:
+		case 12:
+			dayMax = 31;
+			break;
+		case 4:
+		case 6:
+		case 9:
+		case 11:
+			dayMax = 30;
+			break;
+		case 2:
+			if (Year % 4 == 0)
+				dayMax = 29;
+			else
+				dayMax = 28;
+			break;
+		}
+	}
+	void startCombine() {
+		string combinedStr;
+		for (int day = 1; day <= dayMax; day++) {
+			string filenameIn = to_string(Year) + to_string(Month) + to_string(day);
+			ifstream readFile;
+			readFile.open(filenameIn);
 
+			if (readFile.is_open()) {
+				while (!readFile.eof()) {
+					getline(readFile, combinedStr);
+				}
+			}
+		}
+	}
 };
 int main() {
 
@@ -32,5 +71,6 @@ int main() {
 
 	textCombiner case01(destName, destMonth, destYear);
 
+	
   
 }
