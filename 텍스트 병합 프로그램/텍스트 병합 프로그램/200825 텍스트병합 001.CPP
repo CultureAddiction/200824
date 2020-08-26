@@ -7,6 +7,7 @@ class textCombiner {
 	int Month;
 	int Year;
 	int dayMax;
+	string combinedStr;
 public:
 	textCombiner() {
 
@@ -15,6 +16,7 @@ public:
 		fileNameRet = name;
 		Month = M;
 		Year = Y%100;
+		combinedStr = name + "\n"; 
 		setDayMax();
 	}
 	void setDayMax() {
@@ -43,9 +45,12 @@ public:
 		}
 	}
 	void startCombine() {
-		string combinedStr;
 		for (int day = 1; day <= dayMax; day++) {
-			string filenameIn = to_string(Year) + to_string(Month) + to_string(day);
+			string tmpLines;
+			string zeroDay="";
+			if (day < 10)
+				zeroDay = "0";
+			string filenameIn = to_string(Year) + to_string(Month) +zeroDay+ to_string(day);
 			ifstream readFile;
 			readFile.open(filenameIn);
 
@@ -54,6 +59,7 @@ public:
 					getline(readFile, combinedStr);
 				}
 			}
+			combinedStr += "\n";
 		}
 	}
 };
