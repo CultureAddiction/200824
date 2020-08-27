@@ -44,7 +44,7 @@ public:
 			break;
 		}
 	}
-	void startCombine() {
+	void startCombineInput() {
 		for (int day = 1; day <= dayMax; day++) {
 			string tmpLines;
 			string zeroDay="";
@@ -56,11 +56,24 @@ public:
 
 			if (readFile.is_open()) {
 				while (!readFile.eof()) {
-					getline(readFile, combinedStr);
+					getline(readFile, tmpLines);
 				}
 			}
-			combinedStr += "\n";
+			else {
+				cout << filenameIn << " Not Found";
+			}
+			tmpLines += "\n";
+
+			combinedStr += tmpLines;
 		}
+	}
+	void makeFile() {
+		ofstream writeFile;
+		writeFile.open(fileNameRet);
+
+		writeFile.write(combinedStr.c_str(), combinedStr.size());
+
+		writeFile.close();
 	}
 };
 int main() {
@@ -76,7 +89,8 @@ int main() {
 	string destName = to_string(destYear) + "년도" + to_string(destMonth)+"월차 일기";
 
 	textCombiner case01(destName, destMonth, destYear);
-
+	case01.startCombineInput();
+	case01.makeFile();
 	
   
 }
