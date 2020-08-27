@@ -47,10 +47,12 @@ public:
 	void startCombineInput() {
 		for (int day = 1; day <= dayMax; day++) {
 			string tmpLines;
-			string zeroDay="";
+			string zeroDay="",zeroMonth="";
 			if (day < 10)
 				zeroDay = "0";
-			string filenameIn = to_string(Year) + to_string(Month) +zeroDay+ to_string(day);
+			if (Month < 10)
+				zeroMonth = "0";
+			string filenameIn = to_string(Year) + zeroMonth + to_string(Month) +zeroDay+ to_string(day)+".txt";
 			ifstream readFile;
 			readFile.open(filenameIn);
 
@@ -69,7 +71,7 @@ public:
 	}
 	void makeFile() {
 		ofstream writeFile;
-		writeFile.open(fileNameRet);
+		writeFile.open(fileNameRet+".txt");
 
 		writeFile.write(combinedStr.c_str(), combinedStr.size());
 
@@ -86,7 +88,10 @@ int main() {
 	cout << endl<< "연도를 입력하시오. 기본 년도는 2020년으로 간주합니다. >> ";
 	cin >> destYear;
 	// 기초 입력 종료
-	string destName = to_string(destYear) + "년도" + to_string(destMonth)+"월차 일기";
+	string zeroMonth = "";
+	if (destMonth < 10)
+		zeroMonth = "0";
+	string destName = to_string(destYear) + "년도 " +zeroMonth+ to_string(destMonth)+"월차 일기";
 
 	textCombiner case01(destName, destMonth, destYear);
 	case01.startCombineInput();
